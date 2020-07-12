@@ -9,9 +9,9 @@ from django.shortcuts import redirect
 # SE REDIRIGE A LA PAGINA DE INICIO
 def index(request):
     if request.user.is_authenticated:
-        return render(request,'index.html')
+        return render(request,'app/index.html')
     else:
-        return render(request,'login.html')
+        return render(request,'app/login.html')
 
 # UNA VEZ QUE SE INCIA SESION
 # SE REDIRIGE A LA PAGINA DE INICIO
@@ -35,7 +35,7 @@ def login(request):
             messages.error(request,'Datos incorrectos')
             return redirect('app:login')
     else:
-        return render(request,'login.html')
+        return render(request,'app/login.html')
 
 from django.contrib.auth import logout as dj_logout
 def logout(request):

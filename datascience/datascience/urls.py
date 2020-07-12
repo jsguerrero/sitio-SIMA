@@ -20,6 +20,8 @@ from django.urls import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('app.urls')),
+    path('sima/', include('sima.urls')),
+    path('django_plotly_dash/', include('django_plotly_dash.urls')),
 ]
 
 # SE AGREGA LA APLICACION DESDE EL ACCESO RAIZ

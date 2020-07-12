@@ -25,6 +25,17 @@
             {% if user.is_superuser %}
             <a class="btn btn-secondary" href={% url 'admin:index' %} role="button">Admin</a>
             {% endif %}
+            <a class="{% if request.resolver_match.app_name == 'app' %} active {% endif %} btn btn-secondary" href={% url 'app:index' %} role="button">Index</a>
+            <div class="btn-group" role="group">
+                <button id="sima" type="button" class="{% if request.resolver_match.app_name == 'sima' %} active {% endif %} btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SIMA
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sima">
+                    <a class="dropdown-item" href={% url 'sima:overview' %}>Visión general</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href={% url 'sima:data_exploration' %}>Exploración de datos</a>
+                </div>
+            </div>
         </div>
     </div>
     {% endif %}
