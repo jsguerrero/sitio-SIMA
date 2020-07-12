@@ -33,6 +33,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sbn-analytics.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+    'sima.apps.SimaConfig',
     'app.apps.AppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -121,6 +123,31 @@ USE_L10N = True
 
 USE_TZ = True
 
+CRISPY_TEMPLATE_PACK = 'bootstap4'
+
+ASGI_APPLICATION = 'plotly_django_tutorial.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379),],
+        }
+    }
+}
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    # 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_plotly_dash.finders.DashAssetFinder',
+    'django_plotly_dash.finders.DashComponentFinder'
+]
+
+PLOTLY_COMPONENTS = [
+    'dash_core_components',
+    'dash_html_components',
+    'dash_renderer',
+    'dpd_components'
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -128,6 +155,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'app/static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR,'app/static'),
+                    os.path.join(BASE_DIR,'sima/static'),)
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 django_heroku.settings(locals())

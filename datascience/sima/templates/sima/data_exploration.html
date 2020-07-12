@@ -1,0 +1,17 @@
+{% extends "app/master.html" %}
+
+{% block head %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<h2>SIMA</h2>
+
+{% endblock %}
+
+{% block content %}
+
+<p class="text-justify">Proyecto SIMA</p>
+
+    {{ plot1 | safe }}
+
+{% endblock %}
