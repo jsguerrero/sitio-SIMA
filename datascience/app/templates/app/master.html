@@ -1,21 +1,21 @@
 <!DOCTYPE html>
     <head>
         {% load static %}
-        {% include "header.html"%}
+        {% include "app/header.html"%}
 
         {% block title %}<title>Discere</title>{% endblock %}
 
-        {% include "librerias.html"%}
+        {% include "app/librerias.html"%}
 
         {% block libs %} {% endblock %}
     </head>
     <body>
-        {% block navbar %} {% include "navbar.html" %} {% endblock %}
+        {% block navbar %} {% include "app/navbar.html" %} {% endblock %}
         <div class="container">
             {% block head %} {% endblock %}
 
             {% block content %} {% endblock %}
         </div>
     </body>
-    {% block footer %} {% include "footer.html" %} {% endblock %}
+    {% block footer %} {% include "app/footer.html" %} {% endblock %}
 </html>

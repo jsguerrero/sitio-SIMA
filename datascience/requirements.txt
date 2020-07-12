@@ -1,7 +1,18 @@
 # psycopg2
-Django==3
-psycopg2-binary>=2.8
+channels
+channels-redis
+daphne
+dash
+dash-core-components
+dash-html-components
+dash-renderer
+dash-table
 dj-database-url
+Django==3
 django-heroku
+django_plotly_dash
+django-redis
 gunicorn
+psycopg2-binary>=2.8
+redis
 whitenoise
