@@ -1,0 +1,1 @@
+powershell -Command "& {heroku container:login;heroku container:push web -a sbn-analytics;heroku container:release web -a sbn-analytics;heroku run python manage.py makemigrations -a sbn-analytics;heroku run python manage.py migrate -a sbn-analytics;heroku open -a sbn-analytics;pause;}"
