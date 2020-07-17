@@ -186,8 +186,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR,'app/static'),
 
 PLOTLY_DASH = {"view_decorator": "django_plotly_dash.access.login_required",}
 
-LOGIN_URL = '/app/'
-LOGIN_REDIRECT_URL = '/app/'
+LOGIN_URL = '/app/login'
+LOGIN_REDIRECT_URL = '/app/index'
 
 
 django_heroku.settings(locals())

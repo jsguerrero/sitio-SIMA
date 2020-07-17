@@ -8,10 +8,11 @@ from django.shortcuts import redirect
 # SI YA HA INICIADO SESION
 # SE REDIRIGE A LA PAGINA DE INICIO
 def index(request):
-    if request.user.is_authenticated:
-        return render(request,'app/index.html')
-    else:
-        return render(request,'app/login.html')
+    return render(request,'app/index.html')
+    # if request.user.is_authenticated:
+    #     return render(request,'app/index.html')
+    # else:
+    #     return render(request,'app/login.html')
 
 # UNA VEZ QUE SE INCIA SESION
 # SE REDIRIGE A LA PAGINA DE INICIO
