@@ -14,17 +14,9 @@ iframe {
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 {% load plotly_dash %}
 
-<h2>SIMA</h2>
-
 {% endblock %}
 
 {% block content %}
-
-<div class="row justify-content-start">
-    <div class="col-12">
-        <p class="text-justify">Proyecto SIMA</p>
-    </div>
-</div>
 
 <!-- <div class="container" style="width: 100%; border: 0;">
     <div class="row justify-content-center" style="width: 100%; border: 0;">
@@ -36,6 +28,6 @@ iframe {
     </div>
 </div> -->
 
-{%plotly_app_bootstrap name="time_series" aspect="21by9"%}
+{%plotly_app_bootstrap name="data_overview" aspect="21by9"%}
 
 {% endblock %}

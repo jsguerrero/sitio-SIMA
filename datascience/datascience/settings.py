@@ -173,6 +173,7 @@ PLOTLY_COMPONENTS = [
     'dash_renderer',
     'dpd_components',
     'dpd_static_support',
+    'dash_table'
 ]
 
 # Static files (CSS, JavaScript, Images)
