@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from dash_apps.sima import time_series
+from dash_apps.sima import data_overview
 
 app_name = 'sima'
 urlpatterns = [
