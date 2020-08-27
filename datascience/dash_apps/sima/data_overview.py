@@ -132,6 +132,20 @@ def read_data(selected_station):
 
     return df
 
+def data_table(df):
+    df_table = pd.concat([df.apply(pd.Series.first_valid_index).to_frame(name="Primer Dato"),
+                          df.apply(pd.Series.last_valid_index).to_frame(name="Ultimo Dato")], axis=1, sort=False)
+
+    df_table['Espacio muestral'] = (df_table["Ultimo Dato"] - df_table["Primer Dato"]).astype('timedelta64[s]')//3600.0
+
+    df_table['Muestras reales'] = [df_table.iloc[v, 2] - df.loc[df_table.iloc[v, 0]: df_table.iloc[v, 1], df_table.index[v]].isna().sum() for v in range(len(df_table.index))]
+
+    df_table.index = df_table.index.set_names(['Variable'])
+    df_table = df_table.reset_index(level=[0])
+    df_table['id'] = df_table.index
+
+    return df_table
+
 def sample_space_bars(df, column):
     n_bins = 10
     bounds = [i * (1.0 / n_bins) for i in range(n_bins + 1)]
@@ -272,16 +286,7 @@ def update(n_clicks, selected_station):
 
     df = read_data(selected_station)
 
-    df_table = pd.concat([df.apply(pd.Series.first_valid_index).to_frame(name="Primer Dato"),
-                          df.apply(pd.Series.last_valid_index).to_frame(name="Ultimo Dato")], axis=1, sort=False)
-
-    df_table['Espacio muestral'] = (df_table["Ultimo Dato"] - df_table["Primer Dato"]).astype('timedelta64[s]')//3600.0
-
-    df_table['Muestras reales'] = [df_table.iloc[v, 2] - df.loc[df_table.iloc[v, 0]: df_table.iloc[v, 1], df_table.index[v]].isna().sum() for v in range(len(df_table.index))]
-
-    df_table.index = df_table.index.set_names(['Variable'])
-    df_table = df_table.reset_index(level=[0])
-    df_table['id'] = df_table.index
+    df_table = data_table(df)
 
     # "deletable": True
     columns = [{'id': c, 'name': c} for c in df_table.columns if c != 'id']
@@ -303,14 +308,6 @@ def update(n_clicks, selected_station):
 
     print('TABLA')
 
-    # fig = px.line(df, height=500, log_y=True)
-
-    # fig_html = html.Div(dcc.Graph(figure=fig))
-
-    # fig_html = html.Div()
-
-    # print('GRAFICA')
-
     return [columns, data, style_data_conditional]
 
 @app.callback(
@@ -328,7 +325,39 @@ def update_figure(n_clicks, selected_station):
         raise dash.exceptions.PreventUpdate
     
     df = read_data(selected_station)
-    fig = px.line(df, height=500, log_y=True)
+
+    df_table = data_table(df)
+
+    max_range = df_table['Espacio muestral'].max()
+    data = []
+    ranges = []
+    for i in range(len(df_table)):
+        variable = df_table.iloc[i, 0]
+        initial_date = df_table.iloc[i, 1]
+        finish_date = df_table.iloc[i, 2]
+        variable_range = df_table.iloc[i, 3]
+        range_pct = int(variable_range * 100 / max_range)
+        ranges.append(range_pct)
+        data.append(dict(Variable=variable, Inicio=initial_date, Fin=finish_date, Pct_Muestral=range_pct),)
+
+    df_graph = pd.DataFrame(data)
+
+    print(df_graph)
+
+    max_color = "#9B9BFF"
+    min_color = "#FF9B9B"
+
+    scale = [(0, min_color), (0.69, min_color), (0.7, max_color), (1, max_color)]
+
+    fig = px.timeline(df_graph, x_start="Inicio", x_end="Fin", y="Variable", color="Pct_Muestral",
+                      color_continuous_scale=scale, range_color=[0, 100],
+                      labels={"Variable": "Variable", "Pct_Muestral": "%"})
+
+    fig.update_yaxes(autorange="reversed")
+
+    fig.update_layout(title_text="Espacio muestral total por variable",
+                      title_x=0.5,
+                      title_y=0.92)
 
     print('GRAFICA')
 
