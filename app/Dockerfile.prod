@@ -1,0 +1,32 @@
+FROM python:3.7
+
+# VARIABLES DE ENTORNO
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# HOME PARA EL USUARIO DE APLICACION
+RUN mkdir -p /home/app
+
+# USUARIO DE APLICACION
+# RUN addgroup -S app && adduser -S app -G app
+RUN useradd --home-dir /home/app --shell /bin/bash app
+
+# VARIABLES DE ENTORNO PARA USUARIO DE APLICACION
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/web
+RUN mkdir -p $APP_HOME
+WORKDIR $APP_HOME
+
+# DEPENDENCIAS DE LA APLICACION
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
+
+# SE COPIA EL PROYECTO PARA EJECUTAR LA APLICACION
+COPY . $APP_HOME
+
+# HACER PROPIETARIO AL USUARIO DE LA APLICACION
+RUN chown -R app:app $APP_HOME
+
+# CAMBIAR A USUARIO DE APLICACION
+USER app
