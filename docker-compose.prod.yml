@@ -6,7 +6,7 @@ services:
       context: ./app
       dockerfile: Dockerfile.prod
     image: 334331832830.dkr.ecr.us-east-1.amazonaws.com/sima:web
-    command: gunicorn datascience.wsgi:application --bind 0.0.0.0:8080
+    command: gunicorn datascience.wsgi:application --bind 0.0.0.0:8080 --timeout=180
     volumes:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
