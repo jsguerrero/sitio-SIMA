@@ -20,8 +20,9 @@ Nota: el texto que va despues del parametri -it puede variar de acuerdo al nombr
 ```
 docker container ls
 ```
-Ya que se ejecuta la terminal se ejecuta
+Ya que se tiene lista la terminal se ejecuta
 ```
+python manage.py collecstatic
 python manage.py makemigrations
 python manage.py migrate
 ```
